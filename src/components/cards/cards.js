@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import moment from "moment";
 
 export default class CustomCard extends Component {
+
   render() {
     let propsData = this.props.data;
     return (

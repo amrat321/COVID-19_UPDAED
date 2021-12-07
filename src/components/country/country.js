@@ -63,17 +63,35 @@ export default class CountriesScreen extends Component {
         const getData = await axios.get(
           `https://covid19.mathdro.id/api/countries/${itemValue}`
         );
-        let confirmed = getData.data.confirmed.value;
-        let recovered = getData.data.recovered.value;
-        let deaths = getData.data.deaths.value;
+        var confirmedNumber = getData.data.confirmed.value;
+        var splitedConfirmedNumber = confirmedNumber.toString().split(".");
+        splitedConfirmedNumber[0] = splitedConfirmedNumber[0].replace(/\B(?=(\d{3})+(?!\d))/g,",");
+
+
+        var recoveredNumber = "3869";
+        var splitedRecoveredNumber = recoveredNumber.toString().split(".");
+        splitedRecoveredNumber[0] = splitedRecoveredNumber[0].replace(
+          /\B(?=(\d{3})+(?!\d))/g,
+          ","
+        );
+          var DeathNumber = getData.data.deaths.value;
+        var splitedDeathNumber = DeathNumber.toString().split(".");
+        splitedDeathNumber[0] = splitedDeathNumber[0].replace(
+          /\B(?=(\d{3})+(?!\d))/g,
+          ","
+        );
+
+        let confirmed = splitedConfirmedNumber.join(".");
+        let recovered = splitedRecoveredNumber.join(".");
+        let deaths = splitedDeathNumber.join(".");
         data[0].number = confirmed;
         data[1].number = recovered;
         data[2].number = deaths;
         data[3].number = getData.data.lastUpdate;
 
-        chartData[0].population = confirmed;
-        chartData[1].population = recovered;
-        chartData[2].population = deaths;
+        chartData[0].population = getData.data.confirmed.value;;
+        chartData[1].population = getData.data.recovered.value;
+        chartData[2].population = getData.data.deaths.value;
 
         this.setState({
           data,

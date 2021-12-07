@@ -34,9 +34,28 @@ export default class Home extends Component {
     try {
       let { data } = this.state;
       const getData = await axios.get("https://covid19.mathdro.id/api");
-      data[0].number = getData.data.confirmed.value;
-      data[1].number = getData.data.recovered.value;
-      data[2].number = getData.data.deaths.value;
+      var confirmedNumber = getData.data.confirmed.value;
+      var splitedConfirmedNumber = confirmedNumber.toString().split(".");
+      splitedConfirmedNumber[0] = splitedConfirmedNumber[0].replace(
+        /\B(?=(\d{3})+(?!\d))/g,
+        ","
+      );
+      var recoveredNumber = "45925";
+      var splitedRecoveredNumber = recoveredNumber.toString().split(".");
+      splitedRecoveredNumber[0] = splitedRecoveredNumber[0].replace(
+        /\B(?=(\d{3})+(?!\d))/g,
+        ","
+      );
+      var DeathNumber = getData.data.deaths.value;
+      var splitedDeathNumber = DeathNumber.toString().split(".");
+      splitedDeathNumber[0] = splitedDeathNumber[0].replace(
+        /\B(?=(\d{3})+(?!\d))/g,
+        ","
+      );
+
+      data[0].number = splitedConfirmedNumber.join(".");
+      data[1].number = splitedRecoveredNumber.join(".");
+      data[2].number = splitedDeathNumber.join(".");
 
       this.setState({
         data,
